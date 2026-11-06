@@ -1,0 +1,28 @@
+{
+  "name": "MdC Profes · IES Miguel de Cervantes",
+  "short_name": "MdC Profes",
+  "description": "Accesos rápidos de la Zona Profesorado, horario y enlaces propios.",
+  "lang": "es",
+  "dir": "ltr",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F6F3EF",
+  "theme_color": "#8B1E2D",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Mi horario", "url": "./?abrir=horario", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Añadir enlace", "url": "./?abrir=nuevo", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ],
+  "share_target": {
+    "action": "./",
+    "method": "GET",
+    "params": { "title": "title", "text": "text", "url": "url" }
+  }
+}

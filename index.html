@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MdC Profes</title>
+<meta name="description" content="Accesos rápidos de la Zona Profesorado del IES Miguel de Cervantes, con horario y enlaces propios.">
+<meta name="theme-color" content="#8B1E2D" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#5E1420" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MdC Profes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+  :root {
+    --bg: #F6F3EF; --card: #FFFFFF; --text: #222222; --sub: #6B6B6B; --accent: #8B1E2D;
+    --header: #8B1E2D; --stroke: #E9E3DC; --soft: #F3E6E8; --overlay: rgba(0,0,0,.42);
+    --shadow: 0 1px 2px rgba(0,0,0,.07); --danger: #B3261E;
+    --st: env(safe-area-inset-top, 0px); --sb: env(safe-area-inset-bottom, 0px);
+    --sl: env(safe-area-inset-left, 0px); --sr: env(safe-area-inset-right, 0px);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121212; --card: #1E1E1E; --text: #ECECEC; --sub: #A8A8A8; --accent: #E48A95;
+      --header: #5E1420; --stroke: #2E2E2E; --soft: #2A1A1D; --overlay: rgba(0,0,0,.6);
+      --shadow: none; --danger: #F2B8B5; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121212; --card: #1E1E1E; --text: #ECECEC; --sub: #A8A8A8; --accent: #E48A95;
+    --header: #5E1420; --stroke: #2E2E2E; --soft: #2A1A1D; --overlay: rgba(0,0,0,.6);
+    --shadow: none; --danger: #F2B8B5; color-scheme: dark;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); }
+  body {
+    font: 15px/1.35 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+    overflow-x: hidden; overscroll-behavior-y: none;
+  }
+  button { font: inherit; color: inherit; }
+  .hidden { display: none !important; }
+
+  /* Cabecera */
+  header {
+    position: sticky; top: 0; z-index: 5; background: var(--header); color: #fff;
+    padding: calc(var(--st) + 10px) calc(var(--sr) + 12px) 14px calc(var(--sl) + 16px);
+  }
+  .hrow { display: flex; align-items: center; gap: 8px; }
+  .htitle { flex: 1; min-width: 0; }
+  .htitle h1 { margin: 0; font-size: 21px; font-weight: 600; letter-spacing: .01em; }
+  .htitle p { margin: 1px 0 0; font-size: 12px; opacity: .85; }
+  .iconbtn {
+    border: 0; background: transparent; color: #fff; width: 44px; height: 44px; border-radius: 22px;
+    font-size: 24px; line-height: 44px; cursor: pointer;
+  }
+  .iconbtn:active { background: rgba(255,255,255,.16); }
+  .search {
+    margin-top: 12px; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,.2);
+    border-radius: 22px; padding: 0 14px; height: 42px;
+  }
+  .search input {
+    flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: #fff;
+    font-size: 16px; /* 16px evita el zoom automático de iOS */
+  }
+  .search input::placeholder { color: rgba(255,255,255,.75); }
+  .search input::-webkit-search-cancel-button { display: none; }
+  .search .clear { border: 0; background: transparent; color: #fff; font-size: 18px; padding: 4px; cursor: pointer; }
+
+  main { padding: 4px calc(var(--sr) + 12px) calc(var(--sb) + 32px) calc(var(--sl) + 12px); max-width: 980px; margin: 0 auto; }
+
+  /* Aviso de instalación */
+  .banner {
+    margin: 14px 4px 0; padding: 14px; border-radius: 16px; background: var(--soft); color: var(--text);
+    border: 1px solid var(--stroke);
+  }
+  .banner b { color: var(--accent); }
+  .banner ol { margin: 8px 0 0; padding-left: 22px; }
+  .banner li { margin: 4px 0; }
+  .banner .row { display: flex; gap: 8px; margin-top: 10px; justify-content: flex-end; }
+  .shareico {
+    display: inline-block; width: 18px; height: 18px; vertical-align: -3px;
+    background: currentColor; -webkit-mask: var(--share-svg) center/contain no-repeat; mask: var(--share-svg) center/contain no-repeat;
+    --share-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2l4 4h-3v9h-2V6H8l4-4zM5 10h3v2H6v8h12v-8h-2v-2h3a1 1 0 011 1v10a1 1 0 01-1 1H5a1 1 0 01-1-1V11a1 1 0 011-1z'/></svg>");
+  }
+
+  /* Secciones y cuadrícula */
+  h2.sec {
+    margin: 0; padding: 20px 4px 8px; font-size: 13px; font-weight: 600; color: var(--accent);
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; padding: 0 4px; }
+  .tile {
+    position: relative; height: 100px; border: 1px solid var(--stroke); border-radius: 16px; background: var(--card);
+    box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 6px; text-align: center; cursor: pointer; user-select: none; -webkit-user-select: none;
+    -webkit-touch-callout: none; transition: transform .08s ease, background .15s ease;
+  }
+  .tile:active { transform: scale(.96); background: var(--soft); }
+  .tile .ic { font-size: 28px; line-height: 1.1; }
+  .tile .lb {
+    margin-top: 5px; font-size: 12px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;
+  }
+  .tile .star { position: absolute; top: 5px; right: 8px; font-size: 11px; color: var(--accent); }
+  .tile.add { background: var(--soft); border-color: transparent; color: var(--accent); font-weight: 600; box-shadow: none; }
+  .tile.add .ic { font-size: 30px; font-weight: 400; }
+  .empty { padding: 8px 4px; color: var(--sub); font-size: 14px; }
+  .tip { padding: 22px 4px 0; color: var(--sub); font-size: 12px; }
+
+  /* Tarjeta del horario */
+  .card {
+    margin: 14px 4px 0; display: flex; align-items: center; gap: 14px; padding: 12px; width: calc(100% - 8px);
+    border: 1px solid var(--stroke); border-radius: 18px; background: var(--card); box-shadow: var(--shadow);
+    text-align: left; cursor: pointer;
+  }
+  .card:active { background: var(--soft); }
+  .card .thumb {
+    width: 60px; height: 60px; border-radius: 12px; flex: none; background: var(--soft) center/cover no-repeat;
+    display: flex; align-items: center; justify-content: center; font-size: 28px;
+  }
+  .card .t1, .card .t2 { display: block; }
+  .card .t1 { font-size: 16px; font-weight: 600; }
+  .card .t2 { font-size: 13px; color: var(--sub); }
+  .card .arrow { margin-left: auto; font-size: 28px; color: var(--sub); }
+
+  /* Capas: menú inferior y diálogos */
+  .overlay {
+    position: fixed; inset: 0; z-index: 20; background: var(--overlay); display: flex; align-items: flex-end; justify-content: center;
+    animation: fade .15s ease;
+  }
+  .overlay.center { align-items: center; padding: 16px; }
+  @keyframes fade { from { opacity: 0; } }
+  @keyframes up { from { transform: translateY(30px); opacity: 0; } }
+  .sheet {
+    width: 100%; max-width: 560px; background: var(--card); color: var(--text); border-radius: 20px 20px 0 0;
+    padding: 8px 0 calc(var(--sb) + 10px); animation: up .18s ease; max-height: 85vh; overflow-y: auto;
+  }
+  .sheet .grab { width: 36px; height: 4px; border-radius: 2px; background: var(--stroke); margin: 4px auto 6px; }
+  .sheet .stitle { padding: 6px 20px 8px; font-size: 13px; color: var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sheet button.item {
+    display: flex; align-items: center; gap: 14px; width: 100%; border: 0; background: transparent; padding: 13px 20px;
+    font-size: 16px; text-align: left; cursor: pointer;
+  }
+  .sheet button.item:active { background: var(--soft); }
+  .sheet button.item .e { width: 24px; text-align: center; }
+  .sheet button.item.danger { color: var(--danger); }
+  .sheet button.item:disabled { opacity: .45; }
+
+  .dialog {
+    width: 100%; max-width: 420px; background: var(--card); color: var(--text); border-radius: 22px; padding: 20px 20px 12px;
+    animation: up .18s ease; max-height: calc(100vh - 32px); overflow-y: auto;
+  }
+  .dialog h3 { margin: 0 0 10px; font-size: 19px; font-weight: 600; }
+  .dialog p { margin: 0 0 10px; color: var(--sub); font-size: 14px; }
+  .dialog .preview { text-align: center; font-size: 42px; margin: 2px 0 4px; }
+  .icons { display: flex; gap: 2px; overflow-x: auto; padding: 4px 0 8px; scrollbar-width: none; }
+  .icons::-webkit-scrollbar { display: none; }
+  .icons button { flex: none; border: 0; background: transparent; font-size: 26px; padding: 6px 7px; border-radius: 10px; cursor: pointer; }
+  .icons button[aria-pressed="true"] { background: var(--soft); }
+  .field { display: block; margin: 10px 0 0; }
+  .field span { display: block; font-size: 12px; color: var(--sub); margin: 0 0 4px 2px; }
+  .field input, .field textarea {
+    width: 100%; border: 1px solid var(--stroke); background: var(--bg); color: var(--text); border-radius: 12px;
+    padding: 11px 12px; font: inherit; font-size: 16px; outline: 0;
+  }
+  .field input:focus, .field textarea:focus { border-color: var(--accent); }
+  .field textarea { min-height: 140px; resize: vertical; font-size: 14px; }
+  .field.err input { border-color: var(--danger); }
+  .field .msg { color: var(--danger); font-size: 12px; margin: 4px 0 0 2px; }
+  .help { font-size: 12px; color: var(--sub); margin: 10px 2px 0; }
+  .actions { display: flex; justify-content: flex-end; gap: 4px; margin-top: 14px; }
+  .btn {
+    border: 0; background: transparent; color: var(--accent); font-weight: 600; font-size: 15px; padding: 10px 14px;
+    border-radius: 20px; cursor: pointer;
+  }
+  .btn:active { background: var(--soft); }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .btn.primary:active { filter: brightness(.92); }
+  .btn.danger { color: var(--danger); }
+
+  /* Visor del horario */
+  .viewer { position: fixed; inset: 0; z-index: 30; background: #000; color: #fff; overflow: hidden; touch-action: none; }
+  .viewer img {
+    position: absolute; left: 0; top: 0; transform-origin: 0 0; max-width: none; user-select: none; -webkit-user-select: none;
+    -webkit-touch-callout: none; will-change: transform;
+  }
+  .vbar {
+    position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: center;
+    padding: calc(var(--st) + 4px) calc(var(--sr) + 4px) 18px calc(var(--sl) + 4px);
+    background: linear-gradient(rgba(0,0,0,.8), rgba(0,0,0,0));
+  }
+  .vbar .back { flex: 1; border: 0; background: transparent; color: #fff; font-size: 19px; font-weight: 600; text-align: left; padding: 10px; cursor: pointer; }
+  .vbar .iconbtn { font-size: 22px; }
+  .vhint {
+    position: absolute; left: 50%; bottom: calc(var(--sb) + 18px); transform: translateX(-50%); white-space: nowrap;
+    background: rgba(0,0,0,.45); color: rgba(255,255,255,.85); font-size: 12px; padding: 6px 12px; border-radius: 14px;
+  }
+  .vempty {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 0 calc(var(--sr) + 32px) 0 calc(var(--sl) + 32px);
+  }
+  .vempty .big { font-size: 56px; }
+  .vempty h3 { margin: 12px 0 8px; font-size: 20px; }
+  .vempty p { margin: 0; color: rgba(255,255,255,.8); font-size: 14px; max-width: 340px; }
+  .vempty .btn { width: 100%; max-width: 320px; margin-top: 12px; padding: 13px; background: #8B1E2D; color: #fff; }
+  .vempty .btn:first-of-type { margin-top: 24px; }
+  .spinner {
+    position: absolute; left: 50%; top: 50%; width: 36px; height: 36px; margin: -18px 0 0 -18px; border-radius: 50%;
+    border: 3px solid rgba(255,255,255,.25); border-top-color: #fff; animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Aviso breve */
+  .toast {
+    position: fixed; left: 50%; bottom: calc(var(--sb) + 24px); transform: translateX(-50%); z-index: 40;
+    background: #323232; color: #fff; padding: 11px 16px; border-radius: 12px; font-size: 14px; max-width: calc(100% - 32px);
+    box-shadow: 0 4px 14px rgba(0,0,0,.3); display: flex; align-items: center; gap: 12px; animation: up .18s ease;
+  }
+  .toast button { border: 0; background: transparent; color: #F0A6B0; font-weight: 700; font-size: 14px; cursor: pointer; padding: 0; }
+
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+  <header>
+    <div class="hrow">
+      <div class="htitle">
+        <h1>MdC Profes</h1>
+        <p>IES Miguel de Cervantes · Murcia</p>
+      </div>
+      <button class="iconbtn" id="menuBtn" aria-label="Más opciones">⋮</button>
+    </div>
+    <label class="search">
+      <span aria-hidden="true">🔍</span>
+      <input id="q" type="search" placeholder="Buscar acceso…" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="search" aria-label="Buscar acceso">
+      <button class="clear hidden" id="qClear" aria-label="Borrar búsqueda">✕</button>
+    </label>
+  </header>
+
+  <main id="content" aria-live="polite"></main>
+
+  <input type="file" id="fileCam" accept="image/*" capture="environment" class="hidden">
+  <input type="file" id="fileLib" accept="image/*" class="hidden">
+
+  <noscript><p style="padding:20px">Esta app necesita JavaScript activado.</p></noscript>
+  <script src="app.js"></script>
+</body>
+</html>
